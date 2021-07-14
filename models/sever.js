@@ -7,13 +7,18 @@ const express = require('express');
 const http = require('http');
 // Socket Server
 const socketIo = require('socket.io');
-const Sockets = require('./sockets');
+const { dbConnection } = require('../database/config');
 
+const Sockets = require('./sockets');
 class Server {
     constructor() {
         this.port = process.env.PORT;
         this.app = express();
+        // Connection to DB
+        dbConnection();
+        // HTTP Server
         this.server = http.createServer(this.app);
+        // Socket configurations
         this.io = socketIo(this.server, {
             cors: {
                 origin: '*',
