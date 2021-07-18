@@ -15,7 +15,7 @@ router.post(
     [
         check('email', 'The email is required').isEmail(),
         check('password', 'The password is required').not().isEmpty(),
-        check('username', 'The username is required').not().isEmpty(),
+        check('name', 'The name is required').not().isEmpty(),
         validateFields,
     ],
     createUser
