@@ -1,4 +1,5 @@
 const { response } = require('express');
+const bcrypt = require('bcryptjs');
 const colors = require('colors/safe');
 const User = require('../models/user');
 
@@ -13,10 +14,12 @@ const createUser = async (req, res = response) => {
                 msg: 'The email is already registered in the database',
             });
         }
-        // TODO: Encriptar contrasena
 
-        // save user in database
         const user = new User(req.body);
+        // Encrypt password
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(password, salt);
+        // save user in database
         await user.save();
         res.json({ user });
     } catch (error) {
