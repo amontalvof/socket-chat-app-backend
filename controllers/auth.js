@@ -37,7 +37,7 @@ const login = async (req, res = response) => {
     try {
         const { email, password } = req.body;
         // Check if the mail exists
-        const userDB = await User.findOne({ email})
+        const userDB = await User.findOne({ email });
         if (!userDB) {
             return res.status(404).json({
                 ok: false,
@@ -45,7 +45,7 @@ const login = async (req, res = response) => {
             });
         }
         // Validate the password
-        const validPassword = bcrypt.compareSync(password, userDB.password)
+        const validPassword = bcrypt.compareSync(password, userDB.password);
         if (!validPassword) {
             return res.status(404).json({
                 ok: false,
@@ -53,7 +53,7 @@ const login = async (req, res = response) => {
             });
         }
         // Generate Json Web Token
-        const token = await generateJWT(userDB.id)
+        const token = await generateJWT(userDB.id);
         return res.json({
             ok: true,
             user: userDB,
@@ -68,9 +68,16 @@ const login = async (req, res = response) => {
     }
 };
 const renewToken = async (req, res = response) => {
-    res.json({
+    const uid = req.uid;
+    // Generate a new Json Web Token
+    const token = await generateJWT(uid);
+    // Get user by uid
+    const user = await User.findById(uid);
+
+    return res.json({
         ok: true,
-        msg: 'renew',
+        user,
+        token,
     });
 };
 
