@@ -24,7 +24,7 @@ const createUser = async (req, res = response) => {
         await user.save();
         // generate JWT
         const token = await generateJWT(user.id);
-        res.json({ user, token });
+        return res.json({ ok: true, user, token });
     } catch (error) {
         console.log(colors.brightMagenta(error));
         return res.status(500).json({
