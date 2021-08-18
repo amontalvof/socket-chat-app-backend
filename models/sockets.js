@@ -1,4 +1,8 @@
-const { userConnected, userDisconnected } = require('../controllers/sockets');
+const {
+    userConnected,
+    userDisconnected,
+    getUsers,
+} = require('../controllers/sockets');
 const { verifyJWT } = require('../helpers/jsonWebToken');
 class Sockets {
     constructor(io) {
@@ -22,6 +26,7 @@ class Sockets {
             // TODO: Saber que usuario esta activo mediante el uid
 
             // TODO: Emitir todos los usuarios conectados
+            this.io.emit('list-users', await getUsers());
 
             // TODO:  Socket join
 
