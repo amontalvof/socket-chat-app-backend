@@ -1,9 +1,10 @@
+const { verifyJWT } = require('../helpers/jsonWebToken');
 const {
     userConnected,
     userDisconnected,
     getUsers,
+    saveMessage,
 } = require('../controllers/sockets');
-const { verifyJWT } = require('../helpers/jsonWebToken');
 class Sockets {
     constructor(io) {
         this.io = io;
@@ -33,8 +34,9 @@ class Sockets {
             // TODO:  Socket join
 
             // TODO: escuchar cuando el cliente manda un mensaje
-            socket.on('personal-message', (payload) => {
-                console.log(payload);
+            socket.on('personal-message', async (payload) => {
+                const message = await saveMessage(payload);
+                console.log(message);
             });
 
             // TODO: disconnect
