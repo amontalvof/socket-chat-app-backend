@@ -35,7 +35,6 @@ class Sockets {
                 const message = await saveMessage(payload);
                 this.io.to(payload.to).emit('personal-message', message);
                 this.io.to(payload.from).emit('personal-message', message);
-                console.log(message);
             });
 
             // * disconnect, mark in the database that the user disconnected
