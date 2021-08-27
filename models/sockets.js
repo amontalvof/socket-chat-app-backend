@@ -42,8 +42,6 @@ class Sockets {
                 await userDisconnected(uid);
                 this.io.emit('list-users', await getUsers());
             });
-
-            // TODO: emitir todos los usuarios conectados
         });
     }
 }
